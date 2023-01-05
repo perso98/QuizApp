@@ -2,13 +2,21 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 function Quiz(props) {
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
-      props.setSeconds((seconds) => seconds + 1);
+      props.setSeconds((seconds) => seconds - 1);
+      if (props.seconds <= 0) {
+        navigate("/summary");
+      }
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [props.seconds]);
+  const minutesOfTimer = Math.floor(props.seconds / 60);
+  const secondsOfTimer = props.seconds % 60;
   return (
     <>
       <h2 style={{ textAlign: "center", color: "#123b48" }}>
@@ -27,7 +35,9 @@ function Quiz(props) {
           <div>Punkty: {props.points}</div>{" "}
           <div style={{ marginTop: "1rem" }}>Ty: MaciejMłody66</div>
         </div>
-        <div>Czas: {props.seconds}</div>
+        <div>
+          Czas: {minutesOfTimer}:{secondsOfTimer}
+        </div>
       </div>
       <div style={{ marginBottom: "2rem", fontWeight: "bold" }}>
         Pytanie: {props.currentQuestion}

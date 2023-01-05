@@ -7,9 +7,8 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 
-function Home() {
+function Home(props) {
   const [subject, setSubject] = React.useState("");
-  const [username, setUsername] = React.useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -37,7 +36,7 @@ function Home() {
         label="Nazwa użytkownika"
         variant="outlined"
         onChange={(e) => {
-          setUsername(e.target.value);
+          props.setUsername(e.target.value);
         }}
         style={{ width: "100%", marginTop: "2rem", color: "white" }}
       />

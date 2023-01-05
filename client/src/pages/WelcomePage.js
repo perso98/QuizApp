@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Home from "../components/Home";
-function WelcomePage() {
+function WelcomePage(props) {
   return (
     <div
       style={{
@@ -10,7 +10,7 @@ function WelcomePage() {
         justifyContent: "center",
       }}
     >
-      <Home />
+      <Home setUsername={props.setUsername} />
     </div>
   );
 }

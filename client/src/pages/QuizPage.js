@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Quiz from "../components/Quiz";
 import StartQuiz from "../components/StartQuiz";
+import EndQuiz from "../components/EndQuiz";
 
 function QuizPage() {
   const [seconds, setSeconds] = useState(0);
@@ -9,15 +11,25 @@ function QuizPage() {
   const [currentAnswer, setCurrentAnswer] = useState();
   const [questionNumber, setQuestionNumber] = useState(1);
   const [start, setStart] = useState(false);
-
   const [usedQuestions, setUsedQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
+
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios("http://localhost:3001/questions");
+      setQuestions(result.data[0]);
+    };
+    fetchData();
+  }, []);
+
   var usedValues = [];
   function getRandomAnswer(q) {
     let index = Math.floor(
-      Math.random() * questions[q].incorrectAnswers.length
+      Math.random() * questions[q].incorrect_answers.length
     );
     while (usedValues.includes(index)) {
-      index = Math.floor(Math.random() * questions[q].incorrectAnswers.length);
+      index = Math.floor(Math.random() * questions[q].incorrect_answers.length);
     }
     usedValues.push(index);
     return index;
@@ -30,58 +42,7 @@ function QuizPage() {
     setUsedQuestions([...usedQuestions, index]);
     return index;
   }
-  const questions = [
-    {
-      question: "Jaki jest największy kontynent na Ziemi?",
-      correctAnswer: "Afryka",
-      incorrectAnswers: ["Ameryka", "Europa", "Azja", "Australia"],
-    },
-    {
-      question: "Jaki jest najwyższy szczyt świata?",
-      correctAnswer: "Mount Everest",
-      incorrectAnswers: ["K2", "Lhotse", "Kangchenjunga", "Makalu"],
-    },
-    {
-      question: "Jaki jest najdłuższy rzeka na świecie?",
-      correctAnswer: "Nil",
-      incorrectAnswers: ["Amazonka", "Missisipi", "Jangcy", "Parana"],
-    },
-    {
-      question: "Jaki jest największy ocean na świecie?",
-      correctAnswer: "Ocean Spokojny",
-      incorrectAnswers: [
-        "Ocean Atlantycki",
-        "Ocean Indyjski",
-        "Ocean Arktyczny",
-        "Ocean Antarktyczny",
-      ],
-    },
-    {
-      question: "Jaka jest największa planeta w Układzie Słonecznym?",
-      correctAnswer: "Jowisz",
-      incorrectAnswers: ["Saturn", "Uran", "Neptun", "Merkury"],
-    },
-    {
-      question: "Jaka jest najmniejsza planeta w Układzie Słonecznym?",
-      correctAnswer: "Merkury",
-      incorrectAnswers: ["Wenus", "Ziemia", "Mars", "Jowisz"],
-    },
-    {
-      question: "Jaki jest największy kraj pod względem powierzchni?",
-      correctAnswer: "Rosja",
-      incorrectAnswers: ["USA", "Kanada", "Chiny", "Australia"],
-    },
-    {
-      question: "Jaki jest największy kraj pod względem liczby ludności?",
-      correctAnswer: "Chiny",
-      incorrectAnswers: ["Indie", "USA", "Indonezja", "Brazylia"],
-    },
-    {
-      question: "Jaki jest największy kontynent pod względem liczby ludności?",
-      correctAnswer: "Azja",
-      incorrectAnswers: ["Afryka", "Ameryka", "Europa", "Australia"],
-    },
-  ];
+
   const [answerA, setAnswerA] = useState();
 
   const [answerB, setAnswerB] = useState();
@@ -103,30 +64,30 @@ function QuizPage() {
 
       var q = getRandomQuestion();
       setQurrentQuestion(questions[q].question);
-      setAnswer(questions[q].correctAnswer);
-      setAnswerA(questions[q].incorrectAnswers[getRandomAnswer(q)]);
+      setAnswer(questions[q].correct_answer);
+      setAnswerA(questions[q].incorrect_answers[getRandomAnswer(q)]);
 
-      setAnswerB(questions[q].incorrectAnswers[getRandomAnswer(q)]);
+      setAnswerB(questions[q].incorrect_answers[getRandomAnswer(q)]);
 
-      setAnswerC(questions[q].incorrectAnswers[getRandomAnswer(q)]);
+      setAnswerC(questions[q].incorrect_answers[getRandomAnswer(q)]);
 
-      setAnswerD(questions[q].incorrectAnswers[getRandomAnswer(q)]);
+      setAnswerD(questions[q].incorrect_answers[getRandomAnswer(q)]);
 
       const correctAnswer = Math.floor(Math.random() * 4) + 1;
       if (correctAnswer === 1) {
-        setAnswerA(questions[q].correctAnswer);
+        setAnswerA(questions[q].correct_answer);
         setAnswer("A");
       }
       if (correctAnswer === 2) {
-        setAnswerB(questions[q].correctAnswer);
+        setAnswerB(questions[q].correct_answer);
         setAnswer("B");
       }
       if (correctAnswer === 3) {
-        setAnswerC(questions[q].correctAnswer);
+        setAnswerC(questions[q].correct_answer);
         setAnswer("C");
       }
       if (correctAnswer === 4) {
-        setAnswerD(questions[q].correctAnswer);
+        setAnswerD(questions[q].correct_answer);
         setAnswer("D");
       }
     }

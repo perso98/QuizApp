@@ -23,7 +23,7 @@ function StartQuiz(props) {
         }}
         onClick={() => {
           props.setStart(true);
-          props.setSeconds(0);
+          props.setSeconds(299);
           props.submitButton();
           props.setQuestionNumber(1);
         }}
