@@ -8,11 +8,10 @@ import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 
 function Home(props) {
-  const [subject, setSubject] = React.useState("");
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setSubject(event.target.value);
+    props.setTypeOfQuiz(event.target.value);
   };
   const handleSumbit = () => {
     navigate("/quiz");
@@ -38,6 +37,7 @@ function Home(props) {
         variant="outlined"
         onChange={(e) => {
           props.setUsername(e.target.value);
+          localStorage.setItem("username", e.target.value);
         }}
         style={{ width: "100%", marginTop: "2rem", color: "white" }}
       />
@@ -48,26 +48,41 @@ function Home(props) {
       >
         <InputLabel>Temat quizu</InputLabel>
         <Select
-          value={subject}
-          defauktValue="Wszystko"
+          value={props.typeOfQuiz ? props.typeOfQuiz : ""}
+          defaultValue="Wszystko"
           label="Temat quizu"
           onChange={handleChange}
         >
           <MenuItem value="Wszystko">Wszystko</MenuItem>
         </Select>
       </FormControl>
-      <Button
-        variant="contained"
-        color="success"
-        style={{
-          marginTop: "2rem",
-          padding: "0.7rem",
-          fontSize: "18px",
-        }}
-        onClick={handleSumbit}
-      >
-        Zapisz
-      </Button>
+      {props.username && props.typeOfQuiz ? (
+        <Button
+          variant="contained"
+          color="success"
+          style={{
+            marginTop: "2rem",
+            padding: "0.7rem",
+            fontSize: "18px",
+          }}
+          onClick={handleSumbit}
+        >
+          Zapisz
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          color="success"
+          style={{
+            marginTop: "2rem",
+            padding: "0.7rem",
+            fontSize: "18px",
+          }}
+          disabled={true}
+        >
+          Zapisz
+        </Button>
+      )}
     </div>
   );
 }

@@ -1,16 +1,11 @@
 import React from "react";
-import EndQuiz from "../components/EndQuiz";
+import Scores from "../components/Scores";
 import Nav from "../components/Nav";
-
-function Summary(props) {
+function Laderboard() {
   return (
     <>
-      <Nav
-        button1Name="Tablica wyników"
-        button1Navigate="/laderboard"
-        button2Name="Nowy quiz"
-        button2Navigate="/"
-      />
+      {" "}
+      <Nav button1Name="Nowy quiz" button1Navigate="/" />
       <div
         style={{
           display: "flex",
@@ -32,16 +27,11 @@ function Summary(props) {
             marginTop: "10rem",
           }}
         >
-          <EndQuiz
-            username={props.username}
-            points={props.points}
-            setPoints={props.setPoints}
-            questionNumber={props.questionNumber}
-          />
+          <Scores />
         </div>
       </div>
     </>
   );
 }
 
-export default Summary;
+export default Laderboard;

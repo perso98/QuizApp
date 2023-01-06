@@ -40,8 +40,8 @@ function Quiz(props) {
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div>Punkty: {props.points}</div>{" "}
-          <div style={{ marginTop: "1rem" }}>Ty: MaciejMłody66</div>
+          <div style={{ marginTop: "1rem" }}>{props.username}</div>
+          <div style={{ marginTop: "1rem" }}>Punkty: {props.points}</div>{" "}
         </div>
         <div>
           Czas: {minutesOfTimer}:{secondsOfTimer}

@@ -18,13 +18,13 @@ function StartQuiz(props) {
           justifyContent: "center",
         }}
       >
-        <span>
+        <h4 style={{ textAlign: "center" }}>
           Po kliknięciu przycisku "Zacznij quiz", będziesz miał 5minut na
           odpowiedzenie na jak najwięcej pytań poprawnie...
           <br />
           <br />
           Powodzenia!
-        </span>
+        </h4>
       </div>
       {props.loading ? (
         <Button

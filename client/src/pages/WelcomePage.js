@@ -1,17 +1,25 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
 import Home from "../components/Home";
+import Nav from "../components/Nav";
 function WelcomePage(props) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Home setUsername={props.setUsername} />
-    </div>
+    <>
+      <Nav button1Name="Tablica wyników" button1Navigate="/laderboard" />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Home
+          setUsername={props.setUsername}
+          typeOfQuiz={props.typeOfQuiz}
+          username={props.username}
+          setTypeOfQuiz={props.setTypeOfQuiz}
+        />
+      </div>
+    </>
   );
 }
 

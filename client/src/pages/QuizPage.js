@@ -3,6 +3,9 @@ import axios from "axios";
 import Quiz from "../components/Quiz";
 import StartQuiz from "../components/StartQuiz";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Nav from "../components/Nav";
 
 function QuizPage(props) {
   const [seconds, setSeconds] = useState(0);
@@ -111,6 +114,9 @@ function QuizPage(props) {
     if (props.questionNumber <= questions.length - 1) {
       if (answer === currentAnswer && start === true) {
         props.setPoints(props.points + 1);
+        toast.success("Tak to pomyślna odpowiedź!");
+      } else {
+        toast.error("Niestety to nie była dobra odpowiedź!");
       }
 
       setCurrentAnswer("");
@@ -163,63 +169,78 @@ function QuizPage(props) {
     }
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <>
+      <Nav
+        button1Name="Tablica wyników"
+        button1Navigate="/laderboard"
+        button2Name="Nowy quiz"
+        button2Navigate="/"
+      />
       <div
         style={{
-          boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.5)",
           display: "flex",
-          flexDirection: "column",
-          padding: "3rem",
-          paddingBottom: "14rem",
-          background: "#e7e8db",
-          width: "700px",
-          height: "300px",
-          borderRadius: "25px",
-          marginTop: "10rem",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {start ? (
-          <Quiz
-            seconds={seconds}
-            setSeconds={setSeconds}
-            points={props.points}
-            setPoints={props.setPoints}
-            currentAnswer={currentAnswer}
-            setCurrentAnswer={setCurrentAnswer}
-            currentQuestion={currentQuestion}
-            questionNumber={props.questionNumber}
-            setQuestionNumber={props.setQuestionNumber}
-            start={start}
-            setStart={setStart}
-            getRandomQuestion={getRandomQuestion}
-            getRandomAnswer={getRandomAnswer}
-            submitButton={submitButton}
-            answerA={answerA}
-            answerB={answerB}
-            answerC={answerC}
-            answerD={answerD}
+        <div
+          style={{
+            boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            flexDirection: "column",
+            padding: "3rem",
+            paddingBottom: "14rem",
+            background: "#e7e8db",
+            width: "700px",
+            height: "300px",
+            borderRadius: "25px",
+            marginTop: "10rem",
+          }}
+        >
+          {start ? (
+            <Quiz
+              seconds={seconds}
+              setSeconds={setSeconds}
+              points={props.points}
+              setPoints={props.setPoints}
+              currentAnswer={currentAnswer}
+              setCurrentAnswer={setCurrentAnswer}
+              currentQuestion={currentQuestion}
+              questionNumber={props.questionNumber}
+              setQuestionNumber={props.setQuestionNumber}
+              start={start}
+              username={props.username}
+              setStart={setStart}
+              getRandomQuestion={getRandomQuestion}
+              getRandomAnswer={getRandomAnswer}
+              submitButton={submitButton}
+              answerA={answerA}
+              answerB={answerB}
+              answerC={answerC}
+              answerD={answerD}
+            />
+          ) : (
+            <StartQuiz
+              startQuiz={startQuiz}
+              setStart={setStart}
+              setSeconds={setSeconds}
+              submitButton={submitButton}
+              setPoints={props.setPoints}
+              loading={loading}
+              setUsedQuestions={setUsedQuestions}
+              setUsedValues={setUsedValues}
+              setQuestionNumber={props.setQuestionNumber}
+            />
+          )}
+          <ToastContainer
+            autoClose={1000}
+            theme="dark"
+            position={toast.POSITION.TOP_CENTER}
+            limit={1}
           />
-        ) : (
-          <StartQuiz
-            startQuiz={startQuiz}
-            setStart={setStart}
-            setSeconds={setSeconds}
-            submitButton={submitButton}
-            setPoints={props.setPoints}
-            loading={loading}
-            setUsedQuestions={setUsedQuestions}
-            setUsedValues={setUsedValues}
-            setQuestionNumber={props.setQuestionNumber}
-          />
-        )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
