@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function Quiz(props) {
+  const [hover, setHover] = useState({ status: false, answer: "" });
+  const handleMouseEnter = (answer) => {
+    setHover({ status: true, answer: answer });
+  };
+
+  const handleMouseLeave = () => {
+    setHover({ status: false, answer: "" });
+  };
   const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,13 +54,22 @@ function Quiz(props) {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <Button
+              onMouseEnter={() => handleMouseEnter("A")}
+              onMouseLeave={() => handleMouseLeave("A")}
               style={{
-                background: props.currentAnswer === "A" ? "green" : "white",
                 padding: "1rem",
                 borderRadius: "25px",
                 width: "100%",
                 justifyContent: "flex-start",
                 color: "black",
+                backgroundColor:
+                  hover.status &&
+                  props.currentAnswer !== "A" &&
+                  hover.answer === "A"
+                    ? "lightgreen"
+                    : props.currentAnswer === "A"
+                    ? "green"
+                    : "white",
               }}
               onClick={() => props.setCurrentAnswer("A")}
             >
@@ -61,13 +78,22 @@ function Quiz(props) {
           </Grid>
           <Grid item xs={6}>
             <Button
+              onMouseEnter={() => handleMouseEnter("B")}
+              onMouseLeave={() => handleMouseLeave("B")}
               style={{
-                background: props.currentAnswer === "B" ? "green" : "white",
                 padding: "1rem",
                 borderRadius: "25px",
                 width: "100%",
                 justifyContent: "flex-start",
                 color: "black",
+                backgroundColor:
+                  hover.status &&
+                  props.currentAnswer !== "B" &&
+                  hover.answer === "B"
+                    ? "lightgreen"
+                    : props.currentAnswer === "B"
+                    ? "green"
+                    : "white",
               }}
               onClick={() => props.setCurrentAnswer("B")}
             >
@@ -76,13 +102,22 @@ function Quiz(props) {
           </Grid>
           <Grid item xs={6}>
             <Button
+              onMouseEnter={() => handleMouseEnter("C")}
+              onMouseLeave={() => handleMouseLeave("C")}
               style={{
-                background: props.currentAnswer === "C" ? "green" : "white",
                 padding: "1rem",
                 borderRadius: "25px",
                 width: "100%",
                 justifyContent: "flex-start",
                 color: "black",
+                backgroundColor:
+                  hover.status &&
+                  props.currentAnswer !== "C" &&
+                  hover.answer === "C"
+                    ? "lightgreen"
+                    : props.currentAnswer === "C"
+                    ? "green"
+                    : "white",
               }}
               onClick={() => props.setCurrentAnswer("C")}
             >
@@ -91,13 +126,22 @@ function Quiz(props) {
           </Grid>
           <Grid item xs={6}>
             <Button
+              onMouseEnter={() => handleMouseEnter("D")}
+              onMouseLeave={() => handleMouseLeave("D")}
               style={{
-                background: props.currentAnswer === "D" ? "green" : "white",
                 padding: "1rem",
                 borderRadius: "25px",
                 width: "100%",
                 justifyContent: "flex-start",
                 color: "black",
+                backgroundColor:
+                  hover.status &&
+                  props.currentAnswer !== "D" &&
+                  hover.answer === "D"
+                    ? "lightgreen"
+                    : props.currentAnswer === "D"
+                    ? "green"
+                    : "white",
               }}
               onClick={() => props.setCurrentAnswer("D")}
             >

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 function StartQuiz(props) {
   return (
@@ -10,26 +10,55 @@ function StartQuiz(props) {
       }}
     >
       <h1 style={{ textAlign: "center" }}>Zacznij quiz jeśli będziesz gotów</h1>
-
-      <Button
-        variant="contained"
-        color="success"
+      <div
         style={{
-          borderRadius: "25px",
-          width: "60%",
-          height: "60px",
-          margin: "auto",
-          marginTop: "7rem",
-        }}
-        onClick={() => {
-          props.setStart(true);
-          props.setSeconds(299);
-          props.submitButton();
-          props.setQuestionNumber(1);
+          fontWeight: "bold",
+          fontSize: "16px",
+          marginTop: "3rem",
+          justifyContent: "center",
         }}
       >
-        Zacznij
-      </Button>
+        <span>
+          Po kliknięciu przycisku "Zacznij quiz", będziesz miał 5minut na
+          odpowiedzenie na jak najwięcej pytań poprawnie...
+          <br />
+          <br />
+          Powodzenia!
+        </span>
+      </div>
+      {props.loading ? (
+        <Button
+          variant="contained"
+          color="success"
+          style={{
+            borderRadius: "25px",
+            width: "60%",
+            height: "60px",
+            margin: "auto",
+            marginTop: "7rem",
+          }}
+          disabled={true}
+        >
+          Zacznij
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          color="success"
+          style={{
+            borderRadius: "25px",
+            width: "60%",
+            height: "60px",
+            margin: "auto",
+            marginTop: "7rem",
+          }}
+          onClick={() => {
+            props.startQuiz();
+          }}
+        >
+          Zacznij
+        </Button>
+      )}
     </div>
   );
 }

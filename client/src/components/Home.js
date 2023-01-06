@@ -20,6 +20,7 @@ function Home(props) {
   return (
     <div
       style={{
+        boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.5)",
         display: "flex",
         flexDirection: "column",
         padding: "3rem",
@@ -30,7 +31,7 @@ function Home(props) {
         marginTop: "10rem",
       }}
     >
-      <h1 style={{ textAlign: "center", color: "#123b48" }}>Zacznij quiz</h1>
+      <h1 style={{ textAlign: "center" }}>Zacznij quiz</h1>
 
       <TextField
         label="Nazwa użytkownika"

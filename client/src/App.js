@@ -6,6 +6,7 @@ import Summary from "./pages/Summary";
 function App() {
   const [points, setPoints] = useState(0);
   const [username, setUsername] = useState("");
+  const [questionNumber, setQuestionNumber] = useState(1);
   const [typeOfQuiz, setTypeOfQuiz] = useState("");
   return (
     <>
@@ -15,16 +16,23 @@ function App() {
           <Route
             path="/quiz"
             element={
-              <Quiz username={username} points={points} setPoints={setPoints} />
+              <Quiz
+                username={username}
+                points={points}
+                setPoints={setPoints}
+                questionNumber={questionNumber}
+                setQuestionNumber={setQuestionNumber}
+              />
             }
           />
           <Route
-            path="summary"
+            path="/summary"
             element={
               <Summary
                 username={username}
                 points={points}
-                setPoints={setPoints}
+                questionNumber={questionNumber}
+                setQuestionNumber={setQuestionNumber}
               />
             }
           />
