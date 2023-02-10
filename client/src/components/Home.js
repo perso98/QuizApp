@@ -16,6 +16,7 @@ function Home(props) {
   const handleSumbit = () => {
     navigate("/quiz");
   };
+  const type = ["Wszystko", "Astronomia", "Geografia"];
   return (
     <div
       style={{
@@ -53,7 +54,9 @@ function Home(props) {
           label="Temat quizu"
           onChange={handleChange}
         >
-          <MenuItem value="Wszystko">Wszystko</MenuItem>
+          {type.map((val) => (
+            <MenuItem value={val}>{val}</MenuItem>
+          ))}
         </Select>
       </FormControl>
       {props.username && props.typeOfQuiz ? (

@@ -1,10 +1,12 @@
 import WelcomePage from "./pages/WelcomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Quiz from "./pages/QuizPage";
+
 import { useState, useEffect } from "react";
 import Summary from "./pages/Summary";
 import ProtectedRoute from "./security/ProtectedRoute";
 import LaderBoard from "./pages/Laderboard";
+import QuizPage from "./pages/QuizPage";
+import Admin from "./pages/Admin";
 
 function App() {
   useEffect(() => {
@@ -30,17 +32,19 @@ function App() {
               />
             }
           />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/laderboard" element={<LaderBoard />} />
           <Route element={<ProtectedRoute />}>
             <Route
               path="/quiz"
               element={
-                <Quiz
+                <QuizPage
                   username={username}
                   points={points}
                   setPoints={setPoints}
                   questionNumber={questionNumber}
                   setQuestionNumber={setQuestionNumber}
+                  typeOfQuiz={typeOfQuiz}
                 />
               }
             />

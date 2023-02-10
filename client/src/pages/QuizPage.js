@@ -21,7 +21,9 @@ function QuizPage(props) {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios("http://localhost:3001/questions");
+      const result = await axios(
+        `http://localhost:3001/questions?type=${props.typeOfQuiz}`
+      );
       setQuestions(result.data[0]);
       setLoading(false);
     };
@@ -108,6 +110,8 @@ function QuizPage(props) {
     }
     setStart(true);
   };
+  const finishButton = () => navigate("/summary");
+
   const submitButton = () => {
     setUsedValues([]);
 
@@ -214,6 +218,7 @@ function QuizPage(props) {
               getRandomQuestion={getRandomQuestion}
               getRandomAnswer={getRandomAnswer}
               submitButton={submitButton}
+              finishButton={finishButton}
               answerA={answerA}
               answerB={answerB}
               answerC={answerC}
@@ -236,7 +241,6 @@ function QuizPage(props) {
             autoClose={1000}
             theme="dark"
             position={toast.POSITION.TOP_CENTER}
-            limit={1}
           />
         </div>
       </div>

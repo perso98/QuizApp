@@ -43,8 +43,16 @@ function Quiz(props) {
           <div style={{ marginTop: "1rem" }}>{props.username}</div>
           <div style={{ marginTop: "1rem" }}>Punkty: {props.points}</div>{" "}
         </div>
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           Czas: {minutesOfTimer}:{secondsOfTimer}
+          <Button
+            variant="contained"
+            color="error"
+            style={{ marginTop: "2rem" }}
+            onClick={props.finishButton}
+          >
+            Zakończ Quiz
+          </Button>
         </div>
       </div>
       <div style={{ marginBottom: "2rem", fontWeight: "bold" }}>
@@ -176,7 +184,7 @@ function Quiz(props) {
             borderRadius: "25px",
           }}
         >
-          Potwierdź odpowiedź
+          Zaznacz odpowiedź
         </Button>
       )}
     </>
