@@ -1,27 +1,30 @@
 import { React, useState, useEffect } from "react";
 import AddQuestion from "../components/AddQuestion";
-import EditQuestion from "../components/EditQuestion";
 import Questions from "../components/Questions";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import axios from "axios";
-function Admin() {
+import DeleteDialog from "../components/DeleteDialog";
+import EditQuestion from "../components/EditQuestion";
+function Admin(props) {
   const [openAdd, setOpenAdd] = useState(false);
   const [question, setQuestion] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [incorrectAnswers, setIncorrectAnswers] = useState(Array(3).fill(""));
   const [topic, setTopic] = useState("");
-  const [questions, setQuestions] = useState([]);
-  useEffect(async () => {
-    try {
-      const response = await axios
-        .get("http://localhost:3001/admin/getQuestions")
-        .then(() => {
-          setQuestions(response.data[0]);
-        });
-    } catch (e) {
-      console.log(e);
+  const [searchQuestion, setSearchQuestion] = useState("");
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [deleteQuestion, setDeleteQuestion] = useState();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editQuestion, setEditQuestion] = useState();
+
+  const questionsSearched = () => {
+    if (searchQuestion === "") return props.questions;
+    else {
+      return props.questions.filter((val) =>
+        val.question.toLowerCase().includes(searchQuestion.toLowerCase())
+      );
     }
-  }, []);
+  };
   const handleSubmit = async (e) => {
     try {
       const response = await axios.post(
@@ -34,10 +37,61 @@ function Admin() {
         }
       );
       setIncorrectAnswers(Array(3).fill(""));
-      console.log(response.data);
+      props.setQuestions([
+        ...props.questions,
+        {
+          id: response.data.id,
+          question: question,
+          correct_answer: correctAnswer,
+          incorrect_answers: incorrectAnswers,
+          type: topic,
+        },
+      ]);
     } catch (error) {
       setIncorrectAnswers(Array(3).fill(""));
       console.error(error);
+    }
+  };
+  const openDeleteDialog = (val) => {
+    setDeleteDialog(true);
+    setDeleteQuestion(val);
+  };
+
+  const openEditDialog = (val) => {
+    setOpenEdit(true);
+    setEditQuestion(val);
+  };
+  const deleteQuestionDB = async (id) => {
+    try {
+      await axios
+        .delete(`http://localhost:3001/admin/deleteQuestion/${id}`)
+        .then((res) => {
+          props.setQuestions(
+            props.questions.filter((val) => {
+              return val.id !== id;
+            })
+          );
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const submitEditQuestion = async (val) => {
+    try {
+      await axios
+        .put(`http://localhost:3001/admin/editQuestion`, {
+          editQuestion: val,
+        })
+        .then((res) => {
+          props.setQuestions(
+            props.questions.map((question) => {
+              if (val.id === question.id) return val;
+              else return question;
+            })
+          );
+        });
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -46,7 +100,7 @@ function Admin() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "100vh",
+        minHeight: "100vh",
 
         flexDirection: "column",
       }}
@@ -57,16 +111,34 @@ function Admin() {
           padding: "3rem",
           boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.5)",
           borderRadius: "25px",
+          minWidth: "600px",
+          minHeight: "400px",
         }}
       >
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => (openAdd ? setOpenAdd(false) : setOpenAdd(true))}
+        <div
+          style={{
+            marginBottom: "2rem",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          {" "}
-          Dodaj pytanie
-        </Button>
+          <TextField
+            variant="outlined"
+            label="Szukaj pytania"
+            style={{ width: "100%", marginBottom: "2rem" }}
+            onChange={(e) => setSearchQuestion(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => (openAdd ? setOpenAdd(false) : setOpenAdd(true))}
+          >
+            {" "}
+            Dodaj pytanie
+          </Button>
+        </div>
+
         <AddQuestion
           openAdd={openAdd}
           setOpenAdd={setOpenAdd}
@@ -76,9 +148,29 @@ function Admin() {
           setCorrectAnswer={setCorrectAnswer}
           handleSubmit={handleSubmit}
           incorrectAnswers={incorrectAnswers}
+          questions={props.questions}
+          question={question}
         />
-        <EditQuestion />
-        <Questions />
+
+        <Questions
+          questionsSearched={questionsSearched}
+          setDeleteDialog={setDeleteDialog}
+          openDeleteDialog={openDeleteDialog}
+          openEditDialog={openEditDialog}
+        />
+        <DeleteDialog
+          deleteDialog={deleteDialog}
+          setDeleteDialog={setDeleteDialog}
+          deleteQuestion={deleteQuestion}
+          deleteQuestionDB={deleteQuestionDB}
+        />
+        <EditQuestion
+          openEdit={openEdit}
+          setOpenEdit={setOpenEdit}
+          editQuestion={editQuestion}
+          submitEditQuestion={submitEditQuestion}
+          setEditQuestion={setEditQuestion}
+        />
       </div>
     </div>
   );

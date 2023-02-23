@@ -1,7 +1,6 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -10,7 +9,16 @@ function AddQuestion(props) {
   const handleClose = () => {
     props.setOpenAdd(false);
   };
-
+  const [type, setType] = useState([]);
+  useEffect(() => {
+    if (props.questions) {
+      const fetchType = () => {
+        const typeSet = new Set(props.questions.map((val) => val.type));
+        setType([...typeSet]);
+      };
+      fetchType();
+    }
+  }, [props.questions]);
   return (
     <>
       {props?.openAdd ? (
@@ -62,24 +70,47 @@ function AddQuestion(props) {
                   style={{ marginTop: "1rem", width: "100%" }}
                 />
               ))}
+
               <TextField
                 variant="outlined"
                 label="Temat"
                 style={{ marginTop: "1rem", width: "100%" }}
                 onChange={(e) => props.setTopic(e.target.value)}
               />
-
-              <Button
-                variant="contained"
-                style={{ marginTop: "3rem" }}
-                color="success"
-                onClick={() => {
-                  props.handleSubmit();
-                  handleClose();
+              <div
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  marginTop: "1rem",
                 }}
               >
-                Dodaj
-              </Button>
+                Dodane tematy:{" "}
+              </div>
+              {type.map((val) => {
+                return <div key={val}>{val}</div>;
+              })}
+
+              {props.question ? (
+                <Button
+                  variant="contained"
+                  style={{ marginTop: "3rem" }}
+                  color="success"
+                  onClick={() => {
+                    props.handleSubmit();
+                    handleClose();
+                  }}
+                >
+                  Dodaj
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  disabled="true"
+                  style={{ marginTop: "3rem" }}
+                >
+                  Uzupełnij wszystkie pola
+                </Button>
+              )}
             </DialogContentText>
           </DialogContent>
         </Dialog>

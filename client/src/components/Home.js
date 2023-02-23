@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,6 +8,16 @@ import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 
 function Home(props) {
+  const [type, setType] = useState([]);
+  useEffect(() => {
+    if (props.questions) {
+      const fetchType = () => {
+        const typeSet = new Set(props.questions.map((val) => val.type));
+        setType(["Wszystko", ...typeSet]);
+      };
+      fetchType();
+    }
+  }, [props.questions]);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -16,7 +26,7 @@ function Home(props) {
   const handleSumbit = () => {
     navigate("/quiz");
   };
-  const type = ["Wszystko", "Astronomia", "Geografia"];
+
   return (
     <div
       style={{
@@ -54,7 +64,7 @@ function Home(props) {
           label="Temat quizu"
           onChange={handleChange}
         >
-          {type.map((val) => (
+          {type?.map((val) => (
             <MenuItem value={val}>{val}</MenuItem>
           ))}
         </Select>

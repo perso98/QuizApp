@@ -17,6 +17,8 @@ function WelcomePage(props) {
           typeOfQuiz={props.typeOfQuiz}
           username={props.username}
           setTypeOfQuiz={props.setTypeOfQuiz}
+          questions={props.questions}
+          setQuestions={props.setQuestions}
         />
       </div>
     </>

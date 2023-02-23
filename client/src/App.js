@@ -1,6 +1,6 @@
 import WelcomePage from "./pages/WelcomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import axios from "axios";
 import { useState, useEffect } from "react";
 import Summary from "./pages/Summary";
 import ProtectedRoute from "./security/ProtectedRoute";
@@ -9,13 +9,26 @@ import QuizPage from "./pages/QuizPage";
 import Admin from "./pages/Admin";
 
 function App() {
-  useEffect(() => {
-    setUsername(localStorage.getItem("username"));
-  }, []);
   const [points, setPoints] = useState(0);
   const [username, setUsername] = useState("");
   const [questionNumber, setQuestionNumber] = useState(1);
   const [typeOfQuiz, setTypeOfQuiz] = useState("");
+  const [questions, setQuestions] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setUsername(localStorage.getItem("username"));
+        const response = await axios.get(
+          "http://localhost:3001/admin/getQuestions"
+        );
+        setQuestions(response.data[0]);
+        console.log(response.data[0]);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -29,10 +42,17 @@ function App() {
                 username={username}
                 setTypeOfQuiz={setTypeOfQuiz}
                 setUsername={setUsername}
+                questions={questions}
+                setQuestions={setQuestions}
               />
             }
           />
-          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/admin"
+            element={
+              <Admin questions={questions} setQuestions={setQuestions} />
+            }
+          />
           <Route path="/laderboard" element={<LaderBoard />} />
           <Route element={<ProtectedRoute />}>
             <Route
