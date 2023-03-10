@@ -14,6 +14,8 @@ Projekt można uruchomić w 2 różne sposoby:
 - Rozwiązanie quizu
 - Zapisu wyniku i porównania z innymi użytkownikami
 
+## Aplikacja
+
 ### Strona główna quizu
 
 Aby rozwiązać quiz należy podać nazwę użytkownika oraz wybrać temat quizu. 
