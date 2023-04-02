@@ -40,8 +40,11 @@ Aby rozwiązać quiz należy podać nazwę użytkownika oraz wybrać temat quizu
 
 ![image](https://user-images.githubusercontent.com/72854881/224411506-606ba1c1-b13c-4e42-96c7-dab8663708cf.png)
 
-### W panelu administratora możemy wyszukać pytanie, zedytować, dodać nowe lub usuwać.
+### W panelu administratora możemy wyszukać pytanie, zedytować, dodać nowe lub usunąć.
 ![image](https://user-images.githubusercontent.com/72854881/229365382-3fa6f852-70fc-44e6-86f4-a95d7773e59a.png)
+
+![image](https://user-images.githubusercontent.com/72854881/229365433-2017c39c-d341-40b8-8d57-289d4ae2b0c8.png)
+
 
 
 
