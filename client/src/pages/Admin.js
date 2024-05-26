@@ -6,6 +6,8 @@ import axios from "axios";
 import DeleteDialog from "../components/DeleteDialog";
 import EditQuestion from "../components/EditQuestion";
 function Admin(props) {
+
+  // Definiowanie stanu komponentu
   const [openAdd, setOpenAdd] = useState(false);
   const [question, setQuestion] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -17,6 +19,7 @@ function Admin(props) {
   const [openEdit, setOpenEdit] = useState(false);
   const [editQuestion, setEditQuestion] = useState();
 
+  // Funkcja do filtrowania pytań na podstawie wyszukiwania
   const questionsSearched = () => {
     if (searchQuestion === "") return props.questions;
     else {
@@ -25,6 +28,8 @@ function Admin(props) {
       );
     }
   };
+
+  // Funkcja obsługująca dodanie pytania
   const handleSubmit = async (e) => {
     try {
       const response = await axios.post(
@@ -52,6 +57,8 @@ function Admin(props) {
       console.error(error);
     }
   };
+
+  // Funkcje obsługujące dialogi usuwania i edycji
   const openDeleteDialog = (val) => {
     setDeleteDialog(true);
     setDeleteQuestion(val);
@@ -61,6 +68,8 @@ function Admin(props) {
     setOpenEdit(true);
     setEditQuestion(val);
   };
+
+  // Funkcja usuwająca pytanie z bazy danych
   const deleteQuestionDB = async (id) => {
     try {
       await axios
@@ -76,6 +85,8 @@ function Admin(props) {
       console.log(err);
     }
   };
+
+  // Funkcja obsługująca edycję pytania
   const submitEditQuestion = async (val) => {
     try {
       await axios

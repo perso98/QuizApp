@@ -9,20 +9,23 @@ import QuizPage from "./pages/QuizPage";
 import Admin from "./pages/Admin";
 
 function App() {
+
+  // Definiowanie stanu komponentu
   const [points, setPoints] = useState(0);
   const [username, setUsername] = useState("");
   const [questionNumber, setQuestionNumber] = useState(1);
   const [typeOfQuiz, setTypeOfQuiz] = useState("");
   const [questions, setQuestions] = useState([]);
+
+   // Pobieranie danych przy montowaniu komponentu
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setUsername(localStorage.getItem("username"));
+        setUsername(localStorage.getItem("username")); // Pobieranie nazwy użytkownika z localStorage
         const response = await axios.get(
           "http://localhost:3001/admin/getQuestions"
         );
-        setQuestions(response.data[0]);
-        console.log(response.data[0]);
+        setQuestions(response.data[0]); // Ustawianie pytań w stanie komponentu
       } catch (e) {
         console.log(e);
       }

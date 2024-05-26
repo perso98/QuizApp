@@ -1,5 +1,6 @@
 const db = require("../utils/db").db;
 
+// Pobieranie wszystkich graczy
 exports.getAllPlayers = async (req, res, next) => {
   try {
     const result = await db.promise().query(`SELECT * FROM players`);
@@ -10,6 +11,7 @@ exports.getAllPlayers = async (req, res, next) => {
   }
 };
 
+// Dodawanie wyników gracza
 exports.sendResult = async (req, res, next) => {
   const { username, points, percentage } = req.body;
   const query =

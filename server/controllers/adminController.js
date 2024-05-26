@@ -1,5 +1,6 @@
 const db = require("../utils/db").db;
 
+// Dodawanie nowego pytania
 exports.addQuestion = async (req, res, next) => {
   const { question, correctAnswer, incorrectAnswers, topic } = req.body;
   const query =
@@ -19,6 +20,7 @@ exports.addQuestion = async (req, res, next) => {
   }
 };
 
+// Pobieranie wszystkich pytań
 exports.getQuestions = async (req, res, next) => {
   try {
     const result = await db.promise().query(`SELECT * FROM questions`);
@@ -28,6 +30,7 @@ exports.getQuestions = async (req, res, next) => {
   }
 };
 
+// Usuwanie pytania po ID
 exports.deleteQuestion = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -40,6 +43,7 @@ exports.deleteQuestion = async (req, res, next) => {
   }
 };
 
+// Edycja pytania
 exports.editQuestion = async (req, res, next) => {
   const { editQuestion } = req.body;
 

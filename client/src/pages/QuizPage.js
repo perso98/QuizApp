@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Nav from "../components/Nav";
 
 function QuizPage(props) {
+  
+  // Stany komponentu
   const [seconds, setSeconds] = useState(0);
   const [answer, setAnswer] = useState();
   const [currentAnswer, setCurrentAnswer] = useState();
@@ -19,6 +21,8 @@ function QuizPage(props) {
   const [usedValues, setUsedValues] = useState([]);
 
   axios.defaults.withCredentials = true;
+
+  // Pobieranie pytań z serwera
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
@@ -30,6 +34,7 @@ function QuizPage(props) {
     fetchData();
   }, []);
 
+  // Funkcja do losowania nieprawidłowej odpowiedzi
   function getRandomAnswer(q) {
     let index = Math.floor(
       Math.random() * questions[q].incorrect_answers.length
@@ -40,6 +45,8 @@ function QuizPage(props) {
     usedValues.push(index);
     return index;
   }
+
+  // Funkcja do losowania pytania
   function getRandomQuestion() {
     let index = Math.floor(Math.random() * questions.length);
     while (usedQuestions.includes(index)) {
@@ -49,15 +56,16 @@ function QuizPage(props) {
     return index;
   }
 
+  // Stan dla odpowiedzi A,B,C,D
   const [answerA, setAnswerA] = useState();
-
   const [answerB, setAnswerB] = useState();
-
   const [answerC, setAnswerC] = useState();
-
   const [answerD, setAnswerD] = useState();
 
+  // Stan dla aktualnego pytania 
   const [currentQuestion, setQurrentQuestion] = useState();
+
+   // Funkcja rozpoczynająca quiz
   const startQuiz = () => {
     setUsedValues([]);
     setUsedQuestions([]);
@@ -71,6 +79,7 @@ function QuizPage(props) {
     setQurrentQuestion(questions[q].question);
     setAnswer(questions[q].correct_answer);
 
+    // Ustawienie odpowiedzi w losowy sposób
     const correctAnswer = Math.floor(Math.random() * 4) + 1;
     if (correctAnswer === 1) {
       setAnswerA(questions[q].correct_answer);
@@ -110,8 +119,11 @@ function QuizPage(props) {
     }
     setStart(true);
   };
+
+  // Funkcja kończąca quiz
   const finishButton = () => navigate("/summary");
 
+    // Funkcja obsługująca przycisk "Submit"
   const submitButton = () => {
     setUsedValues([]);
 
